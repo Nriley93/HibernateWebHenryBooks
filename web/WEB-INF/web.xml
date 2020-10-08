@@ -28,6 +28,10 @@
         <servlet-name>AddBookServlet</servlet-name>
         <servlet-class>servlets.AddBookServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteBookServlet</servlet-name>
+        <servlet-class>servlets.DeleteBookServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogonServlet</servlet-name>
         <url-pattern>/Logon</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>AddBookServlet</servlet-name>
         <url-pattern>/AddBook</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteBookServlet</servlet-name>
+        <url-pattern>/DeleteBook</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

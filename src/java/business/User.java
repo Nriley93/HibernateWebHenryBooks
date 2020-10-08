@@ -1,6 +1,7 @@
 
 package business;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name="users")
 @NamedQuery(name="dbget_User", query="from User where UserID = :uid")
-public class User {
+public class User implements Serializable {
     @Id
     @Column(name="UserId")
     private int UserID;

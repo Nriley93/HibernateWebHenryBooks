@@ -40,7 +40,7 @@ public class StoreDB {
             session.flush();
             session.refresh(s);
             msg = "<br>Store updated!";
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             if(session != null) {
                 session.getTransaction().rollback();
             }

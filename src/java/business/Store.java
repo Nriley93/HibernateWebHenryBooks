@@ -1,6 +1,7 @@
 
 package business;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
  */
 @Entity
 @Table(name="stores")
-public class Store {
+public class Store implements Serializable {
     @Id
     @Column(name="storeID")
     private int StoreID;

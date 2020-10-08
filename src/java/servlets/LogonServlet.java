@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogonServlet extends HttpServlet {
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String URL="/Logon.jsp";
@@ -44,7 +45,7 @@ public class LogonServlet extends HttpServlet {
                     msg = "User " + u.getUserName() + " not authenticated<br>";
                 }
             } 
-        } catch(Exception e) {
+        } catch(NumberFormatException e) {
             msg = "Logon servlet error: " + e.getMessage() + "<br>";
         }
         

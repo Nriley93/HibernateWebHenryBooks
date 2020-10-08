@@ -1,8 +1,6 @@
 
 package business;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,20 +29,4 @@ public class BookDB {
         }
         return dbstat;
     }
-    public static void delete(Book bk) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory(); 
-        Session session = null;
-        try{
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.delete(bk);
-            session.getTransaction().commit();
-        } catch(HibernateException e) {
-            if(session != null) {
-                session.getTransaction().rollback();
-            }
-        } finally {
-            session.close();
-        }
-    } 
 }

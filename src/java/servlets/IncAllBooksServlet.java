@@ -28,9 +28,9 @@ public class IncAllBooksServlet extends HttpServlet {
         try {
             s = (Store) request.getSession().getAttribute("store");
             if(s != null) {
-                for(Inventory inv : s.getBookinv()) {
+                s.getBookinv().forEach((inv) -> {
                     inv.setOnHand(inv.getOnHand()+1);
-                }
+                });
                 msg = StoreDB.persistStore(s);
                 request.getSession().setAttribute("store",s);
             }

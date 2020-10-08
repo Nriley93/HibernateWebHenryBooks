@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ViewInventoryServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String URL="/ViewInventory.jsp", msg="";
@@ -36,7 +37,7 @@ public class ViewInventoryServlet extends HttpServlet {
             if(st == null) {
                 msg = "Store id not found.<br>";
             } 
-        } catch(Exception e) {
+        } catch(NumberFormatException e) {
             msg = "Servlet error: " + e.getMessage() + "<br>";
         }
           request.setAttribute("msg", msg);

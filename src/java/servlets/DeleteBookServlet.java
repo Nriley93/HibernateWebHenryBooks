@@ -1,8 +1,6 @@
 
 package servlets;
 
-import business.Book;
-import business.BookDB;
 import business.Inventory;
 import business.InventoryDB;
 import business.Store;
@@ -19,58 +17,70 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author n.riley
  */
-public class AddBookServlet extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+public class DeleteBookServlet extends HttpServlet {
+
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String URL="/StoreSelection.jsp", msg="";
-        Book bk = new Book();
-        try{
-            bk.setBookID(request.getParameter("bookid"));
-            bk.setTitle(request.getParameter("title"));
-            bk.setAuthor(request.getParameter("author"));
-            bk.setPubCode(request.getParameter("pubcode"));
-            bk.setBooktype(request.getParameter("booktype"));
-            bk.setPrice(Double.parseDouble(request.getParameter("price")));
-            msg += bk.isValid();
-        } catch(NumberFormatException e) {
-            msg += "Book price is not numeric.<br>";
+        String URL="/ViewInventory.jsp", msg="", bookcd="";
+        Store s;
+
+        try {
+            bookcd = request.getParameter("bookcd");
+            if(bookcd.isEmpty()) {
+                msg += "Missing book code<br>";
+            }
+            if(msg.isEmpty()) {
+                s = (Store) request.getSession().getAttribute("store");
+                boolean bookok = false;
+                for(Inventory inv : s.getBookinv()) {
+                    if(inv.getBookID().equalsIgnoreCase(bookcd)) {
+                        request.getSession().setAttribute("inv", inv);
+                        bookok = true;
+                    }  
+                }
+                if(!bookok) {
+                    msg += "Book code not found in inventory<br>";
+                } 
+            }
+        } catch(Exception e) {
+            msg = "Servlet error: " + e.getMessage() + "<br>";
         }
         try {
             if(msg.isEmpty()) {
-                boolean bookadded = BookDB.addBook(bk);
-                if(bookadded) {
-                    msg += "Book " + bk.getBookID() + " added!<br>";
+                boolean bookdeleted = false;
                     List<Store> stores = 
                     (List<Store>) request.getSession().getAttribute("stores");
                     if(stores == null) {
                         throw new IOException("stores list not on session<br>");
                     }
+                    List<Inventory> inv;
                     for(Store store : stores) {
-                        Inventory inv = new Inventory();
-                        inv.setBookID(bk.getBookID());
-                        inv.setStoreID(store.getStoreID());
-                        inv.setOnHand(0);
-                        if(!InventoryDB.addBookInv(inv)) {
-                            msg += "Book " + bk.getBookID() +
-                                    " not added for store: " +
-                                    store.getStoreID() + "<br>";
+                        int i = 0;
+                        inv = store.getBookinv();
+                        if(inv.get(i).getBookID().equalsIgnoreCase(bookcd)){
+                            bookdeleted = InventoryDB.delete(inv.get(i));
                         }
-                    }//end of for
+                        i++;
+                    } // End of for
+                    request.getSession().removeAttribute("inv");
+                if(bookdeleted) {
                     stores = StoreDB.getStores();
                     request.getSession().setAttribute("stores", stores);
+                    URL="/StoreSelection.jsp";
+                    msg += "Book Deleted!<br>";
                 } else {
-                    msg += "Book " + bk.getBookID() +
-                            " not added to system.<br>";                 
+                        msg += "Sorry that didnt work.<br>";                 
                 }
             }
         } catch(IOException e) {
-            msg += "Servlet error: " + e.getMessage() + "<br>";
+            msg = "Delete servlet error: " + e.getMessage();
         }
-        request.setAttribute("msg",msg);
+        request.setAttribute("msg", msg);
         RequestDispatcher disp = 
                 getServletContext().getRequestDispatcher(URL);
-        disp.forward(request,response);
+        disp.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

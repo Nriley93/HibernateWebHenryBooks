@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UpdateInventoryServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String URL="/ViewInventory.jsp", msg="";
@@ -29,7 +30,7 @@ public class UpdateInventoryServlet extends HttpServlet {
             if(onhand < 0) {
                 msg += "On hand entry must be >= 0<br>";
             }
-        } catch(Exception e) {
+        } catch(NumberFormatException e) {
             msg += "Onhand entry was illegal or missing<br>";
         }
         if(msg.isEmpty()) {

@@ -26,7 +26,6 @@ public class SelectedBookServlet extends HttpServlet {
             if(bookcd.isEmpty()) {
                 msg += "Missing book code<br>";
             }
-//           is book code valid?? find out!!! lecture 5, 15mins
             if(msg.isEmpty()) {
                 s = (Store) request.getSession().getAttribute("store");
                 boolean bookok = false;

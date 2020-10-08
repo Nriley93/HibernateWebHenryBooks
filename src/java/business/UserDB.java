@@ -1,6 +1,7 @@
 
 package business;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,7 @@ public class UserDB {
             q.setInteger("uid", uid);
             u = (User) q.uniqueResult();
             
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             u = null;
         } finally {
             session.close();

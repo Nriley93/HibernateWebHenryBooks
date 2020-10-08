@@ -31,6 +31,14 @@
                 <input type="submit" value="Edit Record"><br>
             </form>
             <br>
+            <form action="DeleteBook" method="post">
+                Delete From Records:
+                <input type="text" name="bookcd" id="bookcd"
+                       placeholder="Bookcd"/>
+                <input type="submit" value="Delete">
+            </form>
+            <br>
+            <br>
             <form action="IncAllBooks" method="post">
                 <input type="submit" value="Increment All">
             </form>
@@ -43,6 +51,9 @@
                 <th>Store</th>
                 <th>Book Cd</th>
                 <th>Title</th>
+                <th>Author</th>
+                <th>Pub Cd</th>
+                <th>Publisher Nm</th>
                 <th>Retail Price</th>
                 <th>Quantity</th>
             </tr>
@@ -51,7 +62,10 @@
                     <td class="right">${inv.storeID}</td>
                     <td class="right">${inv.bookID}</td>
                     <td class="left">${inv.book.title}</td>
-                    <td class="right">${inv.book.price}</td>
+                    <td class="left">${inv.book.author}</td>
+                    <td class="left">${inv.book.pubCode}</td>
+                    <td class="left">${inv.book.pub.pubname}</td>
+                    <td class="right">${inv.book.pricefmt}</td>
                     <td class="right">${inv.onHand}</td>
                 </tr>
             </c:forEach> 

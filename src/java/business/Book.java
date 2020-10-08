@@ -1,9 +1,14 @@
 
 package business;
 
+import java.io.Serializable;
+import java.text.NumberFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -12,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="booklist")
-public class Book { 
+public class Book implements Serializable { 
     @Id
     @Column(name="bookID")
     private String bookID;
@@ -22,6 +27,9 @@ public class Book {
     private String author;
     @Column(name="publisher_Code")
     private String pubCode;
+    @OneToOne (fetch=FetchType.EAGER)
+    @JoinColumn (name="publisher_Code",insertable=false,updatable=false)
+    private final Publisher pub;
     @Column(name="booktype")
     private String booktype;
     @Column(name="price")
@@ -34,14 +42,20 @@ public class Book {
         this.pubCode = "";
         this.booktype = "";
         this.price = 0;
+        pub = null;
     }
     
-    public String getBookID() {return bookID;}
-    public double getPrice() {return price;}
-    public String getBooktype() {return booktype;}
-    public String getPubCode() {return pubCode;}
-    public String getAuthor() {return author;}
-    public String getTitle() {return title;}
+    public String getBookID() {return this.bookID;}
+    public double getPrice() {return this.price;}
+    public String getPricefmt() {
+        NumberFormat curr = NumberFormat.getCurrencyInstance();
+        return curr.format(this.price);
+    }
+    public String getBooktype() {return this.booktype;}
+    public String getPubCode() {return this.pubCode;}
+    public Publisher getPub() {return this.pub;}
+    public String getAuthor() {return this.author;}
+    public String getTitle() {return this.title;}
     
     public void setBookID(String bookID) {this.bookID = bookID;}
     public void setTitle(String title) {this.title = title;}

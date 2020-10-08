@@ -26,31 +26,29 @@ public class Inventory implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private final long id;
     @Column(name="storeID")
-    private int StoreID;
-    @Column(name="OnHand")
+    private int storeID;
+    @Column(name="onHand")
     private int OnHand;
-    @Column(name="BookID")
-    private String BookID;
+    @Column(name="bookID")
+    private String bookID;
     @OneToOne (fetch=FetchType.EAGER)
     @JoinColumn (name="bookID",insertable=false,updatable=false)
     private final Book book;
-    @Transient
-    NumberFormat c = NumberFormat.getCurrencyInstance();
     
     public Inventory() {
         this.id = 0;
-        this.StoreID = 0;
+        this.storeID = 0;
         this.OnHand = 0;
-        this.BookID = "";
+        this.bookID = "";
         this.book = null;
     }
 
-    public int getStoreID() {return StoreID;}
-    public String getBookID() {return BookID;}
-    public int getOnHand() {return OnHand;}
+    public int getStoreID() {return this.storeID;}
+    public String getBookID() {return this.bookID;}
+    public int getOnHand() {return this.OnHand;}
     public Book getBook() {return this.book;}
 
-    public void setStoreID(int StoreID) {this.StoreID = StoreID;}
+    public void setStoreID(int StoreID) {this.storeID = StoreID;}
     public void setOnHand(int OnHand) {this.OnHand = OnHand;}
-    public void setBookID(String BookID) {this.BookID = BookID;}
+    public void setBookID(String BookID) {this.bookID = BookID;}
 }
